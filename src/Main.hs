@@ -2,14 +2,11 @@ module Main where
 
 import System.Environment
 
-addTwoStrings :: String -> String -> String
-addTwoStrings a b = show $ read a + read b
+prompt :: String 
+prompt = "Please enter your name: "
 
 main :: IO ()
 main = do
-     args <- getArgs
-     let arg0 = args !! 0
-     let arg1 = args !! 1
-     putStrLn (arg0 ++ " + " ++ arg1 ++ " = " ++ addTwoStrings arg0 arg1)
-     where 
-        
+    putStrLn prompt
+    name <- getLine
+    putStrLn $ "Hello, " ++ name
