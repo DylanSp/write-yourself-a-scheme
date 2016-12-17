@@ -42,17 +42,23 @@ parseNumber'' = many1 digit
                     >>=
                         \ str -> return $ (Number . read) str
 
+escapedChars :: Parser Char
+escapedChars = do
+                char '\\'
+                c <- oneOf ['\\', '\"']
+                return c
+
 parseString :: Parser LispVal
 parseString = do
                 char '"'
-                x <- many (noneOf "\"")
+                x <- many (escapedChars <|> noneOf ['"', '\\'])
                 char '"'
                 return $ String x
 
 parseExpr :: Parser LispVal
 parseExpr = parseAtom
          <|> parseString
-         <|> parseNumber''
+         <|> parseNumber
 
 
 readExpr :: String -> String
