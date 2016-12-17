@@ -30,6 +30,18 @@ parseAtom = do
 parseNumber :: Parser LispVal
 parseNumber = liftM (Number . read) $ many1 digit
 
+-- do-notation
+parseNumber' :: Parser LispVal
+parseNumber' = do
+                str <- many1 digit
+                return $ (Number . read) str
+
+-- >>=
+parseNumber'' :: Parser LispVal
+parseNumber'' = many1 digit
+                    >>=
+                        \ str -> return $ (Number . read) str
+
 parseString :: Parser LispVal
 parseString = do
                 char '"'
@@ -40,7 +52,7 @@ parseString = do
 parseExpr :: Parser LispVal
 parseExpr = parseAtom
          <|> parseString
-         <|> parseNumber
+         <|> parseNumber''
 
 
 readExpr :: String -> String
