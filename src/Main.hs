@@ -45,8 +45,13 @@ parseNumber'' = many1 digit
 escapedChars :: Parser Char
 escapedChars = do
                 char '\\'
-                c <- oneOf ['\\', '\"']
-                return c
+                c <- oneOf ['\\', '\"', 't']
+                return $ case c of 
+                    '\\' -> c 
+                    '"'  -> c
+                    'n'  -> '\n'
+                    'r'  -> '\r'
+                    't'  -> '\t'
 
 parseString :: Parser LispVal
 parseString = do
