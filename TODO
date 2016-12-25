@@ -1,1 +1,15 @@
 do rest of Chapter 2 Parsing exercises, once we have output instead of just recognition
+-#4 - parseNumber with different bases
+-#5 - character literals
+-#6 - floats/decimals
+-#7 - full Scheme numeric tower ()
+
+Chapter 2 Recursive Parsing exercises
+-#1 - backquoting
+-#2 - vectors (after implementing set!)
+-#3 - left-factor grammar so common part of list/dotted list is its own parser
+
+Chapter 3 exercises
+-#1 - type-testing
+-#2 - unpackNum should return 0 for non-numbers
+-#3 - add symbol-handling functions
