@@ -34,8 +34,8 @@ parseNumber = liftM (Number . read) $ many1 digit
 
 escapedChars :: Parser Char
 escapedChars = do
-                char '\\'
-                c <- oneOf ['\\', '\"', 't']
+                _ <- char '\\'
+                c <- oneOf ['\\', '\"', 'n', 'r', 't']
                 return $ case c of 
                     '\\' -> c 
                     '"'  -> c
@@ -45,9 +45,9 @@ escapedChars = do
 
 parseString :: Parser LispVal
 parseString = do
-                char '"'
+                _ <- char '"'
                 x <- many (escapedChars <|> noneOf ['"', '\\'])
-                char '"'
+                _ <- char '"'
                 return $ String x
 
 parseList :: Parser LispVal
@@ -55,13 +55,13 @@ parseList = liftM List $ sepBy parseExpr spaces
 
 parseDottedList :: Parser LispVal
 parseDottedList = do
-    head <- endBy parseExpr spaces
-    tail <- char '.' >> spaces >> parseExpr
-    return $ DottedList head tail
+    listHead <- endBy parseExpr spaces
+    listTail <- char '.' >> spaces >> parseExpr
+    return $ DottedList listHead listTail
 
 parseQuoted :: Parser LispVal
 parseQuoted = do
-    char '\''
+    _ <- char '\''
     x <- parseExpr
     return $ List [Atom "quote", x]
 
@@ -70,9 +70,9 @@ parseExpr = parseAtom
          <|> parseString
          <|> parseNumber
          <|> parseQuoted
-         <|> do char '('
+         <|> do _ <- char '('
                 x <- try parseList <|> parseDottedList
-                char ')'
+                _ <- char ')'
                 return x
 
 unwordsList :: [LispVal] -> String
@@ -85,7 +85,7 @@ showVal (Number contents) = show contents
 showVal (Bool True) = "#t"
 showVal (Bool False) = "#f"
 showVal (List contents) = "(" ++ unwordsList contents ++ ")"
-showVal (DottedList head tail) = "(" ++ unwordsList head ++ " . " ++ showVal tail ++ ")"
+showVal (DottedList listHead listTail) = "(" ++ unwordsList listHead ++ " . " ++ showVal listTail ++ ")"
 
 
 readExpr :: String -> String
