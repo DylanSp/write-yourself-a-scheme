@@ -13,3 +13,7 @@ Chapter 3 exercises
 -#1 - type-testing
 -#2 - unpackNum should return 0 for non-numbers
 -#3 - add symbol-handling functions
+
+Chapter 4
+-Control.Monad.Error is deprecated; use Control.Monad.Except instead
+-add type annotation for trapError: is ThrowsError String -> ThrowsError String correct?
