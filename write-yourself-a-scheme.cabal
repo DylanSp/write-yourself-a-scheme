@@ -22,4 +22,5 @@ executable write-yourself-a-scheme
                        , parsec 
                        , hlint
                        , mtl
+  default-extensions:  ExistentialQuantification
 
