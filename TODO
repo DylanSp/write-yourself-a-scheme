@@ -17,3 +17,9 @@ Chapter 3 exercises
 Chapter 4
 -Control.Monad.Error is deprecated; use Control.Monad.Except instead
 -add type annotation for trapError: is ThrowsError String -> ThrowsError String correct?
+
+Chapter 5
+-#1 - if should only accept Bool values (check if R5RS Scheme does this)
+-#2 - fix bug in equal? to recursive use equal? instead of eqv?
+-#3 - implement cond and case
+-#4 - add remaining string functions, except for string-set!
