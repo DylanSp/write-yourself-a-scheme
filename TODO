@@ -23,3 +23,6 @@ Chapter 5
 -#2 - fix bug in equal? to recursive use equal? instead of eqv?
 -#3 - implement cond and case
 -#4 - add remaining string functions, except for string-set!
+
+Chapter 6 
+-have REPL use haskeline (https://hackage.haskell.org/package/haskeline)
