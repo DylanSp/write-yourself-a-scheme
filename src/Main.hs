@@ -95,7 +95,7 @@ showVal (Bool False) = "#f"
 showVal (List contents) = "(" ++ unwordsList contents ++ ")"
 showVal (DottedList listHead listTail) = "(" ++ unwordsList listHead ++ " . " ++ showVal listTail ++ ")"
 showVal (PrimitiveFunc _) = "<primitive>"
-showVal (Func {params = args, vararg = varargs, body = body, closure = env}) =
+showVal (Func {params = args, vararg = varargs, body = funcBody, closure = env}) =
    "(lambda (" ++ unwords (map show args) ++
       (case varargs of
          Nothing -> ""
@@ -200,8 +200,13 @@ equal [arg1, arg2] = do
 equal badArgList = throwError $ NumArgs 2 badArgList
 
 --helper functions to aid function definition
+makeFunc :: Maybe String -> Env -> [LispVal] -> [LispVal] -> IOThrowsError LispVal
 makeFunc varargs env params body = return $ Func (map showVal params) varargs body env
+
+makeNormalFunc :: Env -> [LispVal] -> [LispVal] -> IOThrowsError LispVal
 makeNormalFunc = makeFunc Nothing
+
+makeVarArgs :: LispVal -> Env -> [LispVal] -> [LispVal] -> IOThrowsError LispVal
 makeVarArgs = makeFunc . Just . showVal
 
 primitives :: [(String, [LispVal] -> ThrowsError LispVal)]
@@ -276,6 +281,7 @@ apply (Func params varargs body closure) args =
             bindVarArgs arg env = case arg of
                 Just argName -> liftIO $ bindVars env [(argName, List $ remainingArgs)]
                 Nothing -> return env
+apply _ _ = undefined 
 
 --error handling
 data LispError = NumArgs Integer [LispVal]
