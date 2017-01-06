@@ -26,3 +26,7 @@ Chapter 5
 
 Chapter 6 
 -have REPL use haskeline (https://hackage.haskell.org/package/haskeline)
+
+Chapter 8
+-have apply spit out a proper error when called with something besides a (Primitive)Func 
+-clean up name shadowing warnings
