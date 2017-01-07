@@ -14,8 +14,8 @@ data LispVal = Atom String
              | String String
              | Bool Bool
              | PrimitiveFunc ([LispVal] -> ThrowsError LispVal)
-             | Func { params :: [String], vararg :: (Maybe String),
-                      body :: [LispVal], closure :: Env }
+             | Func { funcParams :: [String], funcVararg :: (Maybe String),
+                      funcBody :: [LispVal], funcClosure :: Env }
 
 instance Show LispVal where show = showVal
 
@@ -95,7 +95,7 @@ showVal (Bool False) = "#f"
 showVal (List contents) = "(" ++ unwordsList contents ++ ")"
 showVal (DottedList listHead listTail) = "(" ++ unwordsList listHead ++ " . " ++ showVal listTail ++ ")"
 showVal (PrimitiveFunc _) = "<primitive>"
-showVal (Func {params = args, vararg = varargs, body = funcBody, closure = env}) =
+showVal (Func {funcParams = args, funcVararg = varargs}) =
    "(lambda (" ++ unwords (map show args) ++
       (case varargs of
          Nothing -> ""
@@ -362,7 +362,7 @@ defineVar envRef var value = do
 
 bindVars :: Env -> [(String, LispVal)] -> IO Env
 bindVars envRef bindings = readIORef envRef >>= extendEnv bindings >>= newIORef
-     where extendEnv bindings env = liftM (++ env) (mapM addBinding bindings)
+     where extendEnv bindings' env = liftM (++ env) (mapM addBinding bindings')
            addBinding (var, value) = do ref <- newIORef value
                                         return (var, ref)
 
