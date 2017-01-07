@@ -312,7 +312,7 @@ instance Error LispError where
 
 type ThrowsError = Either LispError
 
---trapError :: ThrowsError String -> ThrowsError String
+trapError :: IOThrowsError String -> IOThrowsError String
 trapError action = catchError action (return . show)
 
 extractValue :: ThrowsError a -> a
