@@ -179,6 +179,7 @@ eqv [(List arg1), (List arg2)]             = return $ Bool $ (length arg1 == len
      where eqvPair (x1, x2) = case eqv [x1, x2] of
                                 Left _ -> False
                                 Right (Bool val) -> val
+                                Right _ -> False
 eqv [_, _]                                 = return $ Bool False
 eqv badArgList                             = throwError $ NumArgs 2 badArgList
 
@@ -301,6 +302,7 @@ showError (Parser parseErr)             = "Parse error at " ++ show parseErr
 showError (BadSpecialForm message form) = message ++ ": " ++ show form
 showError (NotFunction message func)    = message ++ ": " ++ show func
 showError (UnboundVar message varname)  = message ++ ": " ++ varname
+showError (Default message)             = message
 
 instance Show LispError where show = showError
 
