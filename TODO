@@ -29,4 +29,3 @@ Chapter 6
 
 Chapter 8
 -have apply spit out a proper error when called with something besides a (Primitive)Func 
--clean up name shadowing warnings
