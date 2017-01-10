@@ -1,0 +1,58 @@
+Test primitive operations (in Scheme syntax) w/ QuickCheck, HUnit tests for edge cases
+
+arithmetic:
+Addition
+Subtraction
+Multiplication
+Division
+Mod
+Quotient
+Remainder
+
+relational:
+=
+<
+>
+/=
+>=
+<=
+
+logical:
+&&
+||
+
+string equality:
+string=?
+string<?
+string>?
+string<=?
+string>=?
+
+list primitives: (add ones from standard library)
+
+primitives :: [(String, [LispVal] -> ThrowsError LispVal)]
+primitives = [("+", numericBinop (+)),
+              ("-", numericBinop (-)),
+              ("*", numericBinop (*)),
+              ("/", numericBinop div),
+              ("mod", numericBinop mod),
+              ("quotient", numericBinop quot),
+              ("remainder", numericBinop rem),
+              ("=", numBoolBinop (==)),
+              ("<", numBoolBinop (<)),
+              (">", numBoolBinop (>)),
+              ("/=", numBoolBinop (/=)),
+              (">=", numBoolBinop (>=)),
+              ("<=", numBoolBinop (<=)),
+              ("&&", boolBoolBinop (&&)),
+              ("||", boolBoolBinop (||)),
+              ("string=?", strBoolBinop (==)),
+              ("string<?", strBoolBinop (<)),
+              ("string>?", strBoolBinop (>)),
+              ("string<=?", strBoolBinop (<=)),
+              ("string>=?", strBoolBinop (>=)),
+              ("car", car),
+              ("cdr", cdr),
+              ("cons", cons),
+              ("eqv?", eqv),
+              ("equal?", equal)]
